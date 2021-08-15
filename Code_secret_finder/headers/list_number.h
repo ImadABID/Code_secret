@@ -9,6 +9,7 @@ double list_number_get_score(struct list_number *lt);
 void list_number_set_score(struct list_number *lt, double score);
 struct list_teammate *list_number_get_list_teammate(struct list_number *lt);
 
+struct list_number *list_number_get_by_index(struct list_number *lt, int index);
 
 //init
 struct list_number *list_number_new();
@@ -17,7 +18,7 @@ struct list_number *list_number_new();
 int *list_number_propose_for_test(struct list_number *lt);
 
 //propose_for_discovery
-int *list_number_propose_for_discovery(struct list_number *lt);
+int *list_number_propose_for_discovery(struct list_number *lt, int discovery_choice);
 
 //Debug
 char *list_number_to_str(struct list_number *lt);

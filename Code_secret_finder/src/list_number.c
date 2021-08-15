@@ -109,6 +109,21 @@ int *list_number_propose_for_test(struct list_number *lt){
 
 //propose_for_discover
 
+
+struct list_number *list_number_get_by_index(struct list_number *lt, int index){
+    struct list_number *lt_pre;
+    for(int i = 0; i<index+1; i++){
+        lt_pre = lt;
+        lt = lt->next;
+        if(lt == NULL){
+            fprintf(stderr, "Error at list_number_get_by_index : Index out of range");
+            exit(-1);
+        }
+    }
+
+    return lt_pre;
+}
+
 // Debug
 char *list_number_to_str(struct list_number *lt){
     /*
