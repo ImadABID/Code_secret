@@ -19,11 +19,11 @@ int main(){
 
     //printf("%s", list_teammate_to_str(lt));
 
-    /*
-    int *sq = malloc(3*sizeof(int));
+    
+    int *sq = malloc(4*sizeof(int));
     list_teammate_choose_squad(lt, sq);
-    printf("squad : %d %d %d\n", sq[0], sq[1], sq[2]);
-    */
+    printf("squad : * %d %d %d\n", sq[1], sq[2], sq[3]);
+    
     
     return 0;
 }
