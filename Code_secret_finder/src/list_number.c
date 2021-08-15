@@ -108,7 +108,14 @@ int *list_number_propose_for_test(struct list_number *lt){
 }
 
 //propose_for_discover
+int *list_number_propose_for_discovery(struct list_number *lt, int discovery_choice){
 
+    int *test_set = malloc(4*sizeof(int));
+
+    // To implement
+
+    return test_set;
+}
 
 struct list_number *list_number_get_by_index(struct list_number *lt, int index){
     struct list_number *lt_pre;
