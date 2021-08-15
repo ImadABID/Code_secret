@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include "headers/list_int.h"
+#include "headers/list_teammate.h"
 
 struct list_teammate{
     int number;
@@ -12,6 +12,14 @@ struct list_teammate{
 char list_teammate_empty(struct list_teammate *lt){
     return lt->next == NULL;
 }
+
+struct list_teammate *list_teammate_new(){
+    struct list_teammate *lt_new = malloc(sizeof(struct list_teammate));
+    lt_new->next = NULL;
+    return lt_new;
+}
+
+// Free ...
 
 void list_teammate_register(struct list_teammate *lt, int nbr){
     char registered = 0;
