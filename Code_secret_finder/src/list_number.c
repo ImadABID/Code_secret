@@ -50,6 +50,45 @@ struct list_number *list_number_new(){
 
 // Free ...
 
+// setters & getters
+int list_number_get_number(struct list_number *lt){
+
+    if(lt->next==NULL){
+        fprintf(stderr, "Error at list_number_get_number : list_number empty");
+        exit(-1);
+    }
+
+    return lt->next->number;
+}
+
+double list_number_get_score(struct list_number *lt){
+
+    if(lt->next==NULL){
+        fprintf(stderr, "Error at list_number_get_score : list_number empty");
+        exit(-1);
+    }
+
+    return lt->next->score;
+}
+
+void list_number_set_score(struct list_number *lt, double score){
+    if(lt->next==NULL){
+        fprintf(stderr, "Error at list_number_get_score : list_number empty");
+        exit(-1);
+    }
+
+    lt->next->score = score;
+}
+
+struct list_teammate *list_number_get_list_teammate(struct list_number *lt){
+    if(lt->next==NULL){
+        fprintf(stderr, "Error at list_number_get_list_teammate : list_number empty");
+        exit(-1);
+    }
+
+    return lt->next->teammate_history;
+}
+
 //propose_for_test
 int *list_number_propose_for_test(struct list_number *lt){
     int *test_set = malloc(4*sizeof(int));
@@ -67,6 +106,7 @@ int *list_number_propose_for_test(struct list_number *lt){
 
     return test_set;
 }
+
 //propose_for_discover
 
 // Debug

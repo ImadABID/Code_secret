@@ -3,6 +3,13 @@
 
 struct list_number;
 
+// setters & getters
+int list_number_get_number(struct list_number *lt);
+double list_number_get_score(struct list_number *lt);
+void list_number_set_score(struct list_number *lt, double score);
+struct list_teammate *list_number_get_list_teammate(struct list_number *lt);
+
+
 //init
 struct list_number *list_number_new();
 
