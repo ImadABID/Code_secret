@@ -1,7 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
-#include "headers/list_teammate.h"
+#include "../headers/list_teammate.h"
+
+// Private functions header
+void list_teammate_organise(struct list_teammate *previous_teammate);
+char list_teammate_empty(struct list_teammate *lt);
 
 struct list_teammate{
     int number;
@@ -35,10 +40,11 @@ void list_teammate_register(struct list_teammate *lt, int nbr){
             break;
         }
     }
+
     if(!registered){
         struct list_teammate *teammate = malloc(sizeof(struct list_teammate));
         teammate->number = nbr;
-        teammate->teammate_occasion_number = 0;
+        teammate->teammate_occasion_number = 1;
         teammate->next = lt->next;
         lt->next = teammate;
     }
@@ -54,6 +60,8 @@ void list_teammate_organise(struct list_teammate *previous_teammate){
 
     struct list_teammate *lt_to_organise = previous_teammate->next;
 
+    previous_teammate->next = lt_to_organise->next;
+
     struct list_teammate *lt_i_pre;
     struct list_teammate *lt_i = previous_teammate;
 
@@ -61,18 +69,47 @@ void list_teammate_organise(struct list_teammate *previous_teammate){
         lt_i_pre = lt_i;
         lt_i = lt_i->next;
 
-        if(lt_to_organise->number <= lt_i->number){
-            previous_teammate->next = previous_teammate->next->next;
+        if(lt_to_organise->teammate_occasion_number <= lt_i->teammate_occasion_number){
+
             lt_i_pre->next = lt_to_organise;
             lt_to_organise->next = lt_i;
 
             organiased = 1;
+            break;
         }
     }
 
     if(!organiased){
-        previous_teammate->next = previous_teammate->next->next;
         lt_i->next = lt_to_organise;
         lt_to_organise->next = NULL;
     }
+}
+
+// Debug
+char *list_teammate_to_str(struct list_teammate *lt){
+    /*
+    list_teammate{
+        {number:1, teammate_occasion_number:2}
+        {number:2, teammate_occasion_number:4}
+    }
+    */
+
+    char *out = malloc(10*50*sizeof(char));
+    
+
+    strcat(out, "list_teammate{\n");
+
+    struct list_teammate *lt_i_pre;
+    struct list_teammate *lt_i = lt;
+    char *line = malloc(200*sizeof(char));
+
+    while(lt_i->next != NULL){
+        lt_i_pre = lt_i;
+        lt_i = lt_i->next;
+        sprintf(line, "\t{number:%d, teammate_occasion_number:%d}\n", lt_i->number, lt_i->teammate_occasion_number);
+        strcat(out,line);
+    }
+    strcat(out,"}");
+    free(line);
+    return out;
 }

@@ -7,4 +7,7 @@ struct list_teammate *list_teammate_new();
 
 void list_teammate_register(struct list_teammate *lt, int nbr);
 
+// Debug
+char *list_teammate_to_str(struct list_teammate *lt);
+
 #endif
