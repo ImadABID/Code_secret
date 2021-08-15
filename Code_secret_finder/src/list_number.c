@@ -50,6 +50,25 @@ struct list_number *list_number_new(){
 
 // Free ...
 
+//propose_for_test
+int *list_number_propose_for_test(struct list_number *lt){
+    int *test_set = malloc(4*sizeof(int));
+
+    struct list_number *lt_i = lt->next;
+
+    for(int i = 0; i<4; i++){
+        if(lt_i == NULL){
+            fprintf(stderr, "Error at list_number_propose_for_test : list_number not complete\n");
+            exit(-1);
+        }
+        test_set[i] = lt_i->number;
+        lt_i = lt_i->next;
+    }
+
+    return test_set;
+}
+//propose_for_discover
+
 // Debug
 char *list_number_to_str(struct list_number *lt){
     /*
