@@ -13,15 +13,17 @@ int main(){
     list_teammate_register(lt, 1);
     list_teammate_register(lt, 1);
     list_teammate_register(lt, 2);
-    list_teammate_register(lt, 2);
+    list_teammate_register(lt, 8);
     list_teammate_register(lt, 2);
     list_teammate_register(lt, 3);
 
-if(strcmp(list_teammate_to_str(lt),"list_teammate{\n\t{number:9, teammate_occasion_number:1}\n\t{number:8, teammate_occasion_number:1}\n\t{number:7, teammate_occasion_number:1}\n\t{number:6, teammate_occasion_number:1}\n\t{number:5, teammate_occasion_number:1}\n\t{number:4, teammate_occasion_number:1}\n\t{number:3, teammate_occasion_number:2}\n\t{number:1, teammate_occasion_number:3}\n\t{number:2, teammate_occasion_number:4}\n}")==0){
-    printf(" ok\n");
-}else{
-    fprintf(stderr, "Error at : list_teammate\n");
-    exit(-1);
-}   
+    //printf("%s", list_teammate_to_str(lt));
+
+    /*
+    int *sq = malloc(3*sizeof(int));
+    list_teammate_choose_squad(lt, sq);
+    printf("squad : %d %d %d\n", sq[0], sq[1], sq[2]);
+    */
+    
     return 0;
 }

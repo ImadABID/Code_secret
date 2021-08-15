@@ -94,6 +94,17 @@ void list_teammate_organise(struct list_teammate *previous_teammate){
     }
 }
 
+void list_teammate_choose_squad(struct list_teammate *lt, int *squad_table){
+    for(int i = 0; i<3; i++){
+        lt = lt->next;
+        if(lt==NULL){
+            fprintf(stderr, "Error at list_teammate_choose_squad : list_teammate uncompleted\n");
+            exit(-1);
+        }
+        squad_table[i] = lt->number;
+    }
+}
+
 // Debug
 char *list_teammate_to_str(struct list_teammate *lt){
     /*
