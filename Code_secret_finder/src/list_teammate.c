@@ -109,7 +109,7 @@ char *list_teammate_to_str(struct list_teammate *lt){
     strcat(out, "list_teammate{\n");
 
     struct list_teammate *lt_i = lt;
-    char *line = malloc(200*sizeof(char));
+    char *line = malloc(50*sizeof(char));
 
     while(lt_i->next != NULL){
         lt_i = lt_i->next;
