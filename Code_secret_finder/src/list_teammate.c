@@ -24,10 +24,11 @@ struct list_teammate *list_teammate_new(){
     return lt_new;
 }
 
-struct list_teammate *list_teammate_new_all_once(){
+struct list_teammate *list_teammate_new_all_once_except(int nbr){
     struct list_teammate *lt = list_teammate_new();
     for(int i=0; i<10; i++){
-        list_teammate_register(lt, i);
+        if(i!=nbr)
+            list_teammate_register(lt, i);
     }
     return lt;
 }
