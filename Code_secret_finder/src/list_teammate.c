@@ -108,12 +108,10 @@ char *list_teammate_to_str(struct list_teammate *lt){
 
     strcat(out, "list_teammate{\n");
 
-    struct list_teammate *lt_i_pre;
     struct list_teammate *lt_i = lt;
     char *line = malloc(200*sizeof(char));
 
     while(lt_i->next != NULL){
-        lt_i_pre = lt_i;
         lt_i = lt_i->next;
         sprintf(line, "\t{number:%d, teammate_occasion_number:%d}\n", lt_i->number, lt_i->teammate_occasion_number);
         strcat(out,line);
