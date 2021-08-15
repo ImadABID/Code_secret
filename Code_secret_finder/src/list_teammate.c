@@ -1,3 +1,4 @@
+#include<stdio.h>
 #include<stdlib.h>
 
 #include "headers/list_int.h"
@@ -35,6 +36,35 @@ void list_teammate_register(struct list_teammate *lt, int nbr){
     }
 }
 
-void list_teammate_organise(){
+void list_teammate_organise(struct list_teammate *previous_teammate){
+    
+    if(list_teammate_empty(previous_teammate)){
+        fprintf(stderr, "list_teammate_organise : No teammate to organise\n");
+    }
 
+    char organiased = 0;
+
+    struct list_teammate *lt_to_organise = previous_teammate->next;
+
+    struct list_teammate *lt_i_pre;
+    struct list_teammate *lt_i = previous_teammate;
+
+    while(lt_i->next!=NULL){
+        lt_i_pre = lt_i;
+        lt_i = lt_i->next;
+
+        if(lt_to_organise->number <= lt_i->number){
+            previous_teammate->next = previous_teammate->next->next;
+            lt_i_pre->next = lt_to_organise;
+            lt_to_organise->next = lt_i;
+
+            organiased = 1;
+        }
+    }
+
+    if(!organiased){
+        previous_teammate->next = previous_teammate->next->next;
+        lt_i->next = lt_to_organise;
+        lt_to_organise->next = NULL;
+    }
 }
