@@ -4,6 +4,7 @@
 struct list_teammate;
 
 struct list_teammate *list_teammate_new();
+struct list_teammate *list_teammate_new_all_once();
 
 void list_teammate_register(struct list_teammate *lt, int nbr);
 
