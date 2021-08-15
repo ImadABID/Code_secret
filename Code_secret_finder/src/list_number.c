@@ -8,7 +8,7 @@
 
 struct list_number{
     int number;
-    int score; // not normalize
+    double score;
     int participation_number;
     struct list_teammate *teammate_history;
 
@@ -17,13 +17,13 @@ struct list_number{
 
 struct list_number *list_number_new(){
 
-    int init_score = 1; // To verify
+    double score_esperence = 1.6;
 
     struct list_number *lt;
     struct list_number *lt_next = malloc(sizeof(struct list_number));
 
     lt_next->number = 9;
-    lt_next->score = init_score;
+    lt_next->score = score_esperence;
     lt_next->participation_number = 1;
     lt_next->teammate_history = list_teammate_new_all_once_except(9);
 
@@ -33,7 +33,7 @@ struct list_number *list_number_new(){
         lt = malloc(sizeof(struct list_number));
 
         lt->number = i;
-        lt->score = init_score;
+        lt->score = score_esperence;
         lt->participation_number = 1;
         lt->teammate_history = list_teammate_new_all_once_except(i);
 
@@ -54,12 +54,12 @@ struct list_number *list_number_new(){
 char *list_number_to_str(struct list_number *lt){
     /*
     list_number{
-        {number:1, score:2, participation_number:3}
-        {number:2, score:3, participation_number:3}
+        {number:1, score:2.2, participation_number:4}
+        {number:2, score:1.4, participation_number:3}
     }
     */
 
-    char *out = malloc(10*50*sizeof(char));
+    char *out = malloc(10*100*sizeof(char));
     
 
     strcat(out, "list_number{\n");
@@ -69,7 +69,7 @@ char *list_number_to_str(struct list_number *lt){
 
     while(lt_i->next != NULL){
         lt_i = lt_i->next;
-        sprintf(line, "\t{number:%d, score:%d, participation_number:%d}\n", lt_i->number, lt_i->score, lt_i->participation_number);
+        sprintf(line, "\t{number:%d, score:%lf, participation_number:%d}\n", lt_i->number, lt_i->score, lt_i->participation_number);
         strcat(out,line);
     }
     strcat(out,"}");
