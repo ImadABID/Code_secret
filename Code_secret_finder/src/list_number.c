@@ -71,13 +71,14 @@ double list_number_get_score(struct list_number *lt){
     return lt->next->score;
 }
 
-void list_number_set_score(struct list_number *lt, double score){
+void list_number_update_score(struct list_number *lt, double score){
     if(lt->next==NULL){
         fprintf(stderr, "Error at list_number_get_score : list_number empty");
         exit(-1);
     }
 
-    lt->next->score = score;
+    lt->next->score = (lt->next->participation_number*lt->next->score + score)/(lt->next->participation_number+1);
+    lt->next->participation_number++;
 }
 
 struct list_teammate *list_number_get_list_teammate(struct list_number *lt){

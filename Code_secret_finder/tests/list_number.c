@@ -34,10 +34,14 @@ int main(){
     free(test_set);
     */
 
-
+    /*
     printf("%d\n",
         list_number_get_number(list_number_get_by_number(lt, 6))
     );
+    */
+
+   list_number_update_score(lt, 0);
+   printf("%lf\n", list_number_get_score(lt));
 
     return 0;
 }
