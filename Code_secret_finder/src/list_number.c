@@ -81,6 +81,16 @@ void list_number_update_score(struct list_number *lt, double score){
     lt->next->participation_number++;
 }
 
+int list_number_get_participation_number(struct list_number *lt){
+
+    if(lt->next==NULL){
+        fprintf(stderr, "Error at list_number_get_score : list_number empty");
+        exit(-1);
+    }
+
+    return lt->next->participation_number;
+}
+
 struct list_teammate *list_number_get_list_teammate(struct list_number *lt){
     if(lt->next==NULL){
         fprintf(stderr, "Error at list_number_get_list_teammate : list_number empty");

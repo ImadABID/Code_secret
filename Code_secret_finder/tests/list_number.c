@@ -41,7 +41,7 @@ int main(){
     */
 
    list_number_update_score(lt, 0);
-   printf("%lf\n", list_number_get_score(lt));
+   printf("%lf\t%d\n", list_number_get_score(lt), list_number_get_participation_number(lt));
 
     return 0;
 }

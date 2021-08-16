@@ -7,6 +7,7 @@ struct list_number;
 int list_number_get_number(struct list_number *lt);
 double list_number_get_score(struct list_number *lt);
 void list_number_update_score(struct list_number *lt, double score);
+int list_number_get_participation_number(struct list_number *lt);
 struct list_teammate *list_number_get_list_teammate(struct list_number *lt);
 
 // list extractors
