@@ -31,7 +31,10 @@ struct list_number *list_number_new(){
     lt_next->next = NULL;
 
     for(int i=8; i>=0; i--){
+
         lt = malloc(sizeof(struct list_number));
+
+        lt_next->prev = lt;
 
         lt->number = i;
         lt->score = score_esperence;
@@ -39,12 +42,14 @@ struct list_number *list_number_new(){
         lt->teammate_history = list_teammate_new_all_once_except(i);
 
         lt->next = lt_next;
-        lt_next->prev = lt;
 
         lt_next = lt;
     }
 
     lt = malloc(sizeof(struct list_number));
+    
+    lt_next->prev = lt;
+    
     lt->next = lt_next;
     lt->prev = NULL;
 
@@ -56,57 +61,76 @@ struct list_number *list_number_new(){
 // setters & getters
 int list_number_get_number(struct list_number *lt){
 
-    if(lt->next==NULL){
-        fprintf(stderr, "Error at list_number_get_number : list_number empty");
+    if(lt->prev==NULL){
+        fprintf(stderr, "Error at list_number_get_number : Forbidden Access\n");
         exit(-1);
     }
 
-    return lt->next->number;
+    return lt->number;
 }
 
 double list_number_get_score(struct list_number *lt){
 
-    if(lt->next==NULL){
-        fprintf(stderr, "Error at list_number_get_score : list_number empty");
+    if(lt->prev==NULL){
+        fprintf(stderr, "Error at list_number_get_score : Forbidden Access\n Use list_number_get_by_\n");
         exit(-1);
     }
 
-    return lt->next->score;
+    return lt->score;
 }
 
 void list_number_update_score(struct list_number *lt, double score){
-    if(lt->next==NULL){
-        fprintf(stderr, "Error at list_number_get_score : list_number empty");
+
+    if(lt->prev==NULL){
+        fprintf(stderr, "Error at list_number_update_score : Forbidden Access\n Use list_number_get_by_\n");
         exit(-1);
     }
 
-    lt->next->score = (lt->next->participation_number*lt->next->score + score)/(lt->next->participation_number+1);
-    lt->next->participation_number++;
+    double old_score = lt->score;
+
+    lt->score = (lt->participation_number*lt->score + score)/(lt->participation_number+1);
+    lt->participation_number++;
+
+    score = lt->score;
+    /*
+    //Organise
+    if(old_score != score){
+        char incresed_score = old_score < score;
+
+        struct list_number next_ele;
+
+        if(incresed_score){
+            if()
+            // deattache
+
+        }else{
+
+        }
+    }*/
 }
 
 int list_number_get_participation_number(struct list_number *lt){
 
-    if(lt->next==NULL){
-        fprintf(stderr, "Error at list_number_get_score : list_number empty");
+    if(lt->prev==NULL){
+        fprintf(stderr, "Error at list_number_get_participation_number : Forbidden Access\n Use list_number_get_by_\n");
         exit(-1);
     }
 
-    return lt->next->participation_number;
+    return lt->participation_number;
 }
 
 struct list_teammate *list_number_get_list_teammate(struct list_number *lt){
-    if(lt->next==NULL){
-        fprintf(stderr, "Error at list_number_get_list_teammate : list_number empty");
+    if(lt->prev==NULL){
+        fprintf(stderr, "Error at list_number_get_list_teammate : Forbidden Access\n Use list_number_get_by_\n");
         exit(-1);
     }
 
-    return lt->next->teammate_history;
+    return lt->teammate_history;
 }
 
+// Get By
 struct list_number *list_number_get_by_index(struct list_number *lt, int index){
-    struct list_number *lt_pre;
     for(int i = 0; i<index+1; i++){
-        lt_pre = lt;
         lt = lt->next;
         if(lt == NULL){
             fprintf(stderr, "Error at list_number_get_by_index : Index out of range\n");
@@ -114,7 +138,7 @@ struct list_number *list_number_get_by_index(struct list_number *lt, int index){
         }
     }
 
-    return lt_pre;
+    return lt;
 }
 
 struct list_number *list_number_get_by_number(struct list_number *lt, int number){

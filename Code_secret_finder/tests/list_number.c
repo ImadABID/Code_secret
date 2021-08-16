@@ -9,14 +9,13 @@ int main(){
 
     printf("%s", list_number_to_str(lt));
     
-    /*
-    list_number_set_score(lt, 2.4);
+    struct list_number *element_0 = list_number_get_by_index(lt, 0);
     printf("%d %lf %p\n",
-        list_number_get_number(lt),
-        list_number_get_score(lt),
-        list_number_get_list_teammate(lt)
+        list_number_get_number(element_0),
+        list_number_get_score(element_0),
+        list_number_get_list_teammate(element_0)
     );
-    */
+    
 
    //printf("%d\n", list_number_get_number(list_number_get_by_index(lt,8)));
 
