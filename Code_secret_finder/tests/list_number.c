@@ -7,7 +7,7 @@ int main(){
 
     struct list_number *lt = list_number_new();
 
-    //printf("%s", list_number_to_str(lt));
+    printf("%s", list_number_to_str(lt));
     
     /*
     list_number_set_score(lt, 2.4);
@@ -40,8 +40,10 @@ int main(){
     );
     */
 
+   /*
    list_number_update_score(lt, 0);
    printf("%lf\t%d\n", list_number_get_score(lt), list_number_get_participation_number(lt));
+    */
 
     return 0;
 }

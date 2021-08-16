@@ -13,6 +13,7 @@ struct list_number{
     struct list_teammate *teammate_history;
 
     struct list_number *next;
+    struct list_number *prev;
 };
 
 struct list_number *list_number_new(){
@@ -38,12 +39,14 @@ struct list_number *list_number_new(){
         lt->teammate_history = list_teammate_new_all_once_except(i);
 
         lt->next = lt_next;
+        lt_next->prev = lt;
 
         lt_next = lt;
     }
 
     lt = malloc(sizeof(struct list_number));
     lt->next = lt_next;
+    lt->prev = NULL;
 
     return lt;
 }
@@ -187,11 +190,11 @@ char *list_number_to_str(struct list_number *lt){
     strcat(out, "list_number{\n");
 
     struct list_number *lt_i = lt;
-    char *line = malloc(50*sizeof(char));
+    char *line = malloc(100*sizeof(char));
 
     while(lt_i->next != NULL){
         lt_i = lt_i->next;
-        sprintf(line, "\t{number:%d, score:%lf, participation_number:%d}\n", lt_i->number, lt_i->score, lt_i->participation_number);
+        sprintf(line, "\t{number:%d, score:%lf, participation_number:%d, prev:%p, next:%p}\n", lt_i->number, lt_i->score, lt_i->participation_number, lt_i->prev, lt_i->next);
         strcat(out,line);
     }
     strcat(out,"}");
