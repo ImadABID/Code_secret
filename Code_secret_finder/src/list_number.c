@@ -16,6 +16,23 @@ struct list_number{
     struct list_number *prev;
 };
 
+// init
+
+struct list_number *list_number_new_element(int number, double score, int participation_number){
+    struct list_number *lt = malloc(sizeof(struct list_number));
+
+    lt->number = number;
+    lt->score = score;
+    lt->participation_number = participation_number;
+    //lt->teammate_history = NULL;
+
+    lt->next = NULL;
+    lt->prev = NULL;
+
+    return lt;
+}
+
+
 struct list_number *list_number_new(){
 
     double score_esperence = 1.6;
@@ -92,6 +109,7 @@ void list_number_update_score(struct list_number *lt, double score){
     lt->participation_number++;
 
     score = lt->score;
+
     /*
     //Organise
     if(old_score != score){
@@ -99,14 +117,26 @@ void list_number_update_score(struct list_number *lt, double score){
 
         struct list_number next_ele;
 
-        if(incresed_score){
-            if()
+        if(incresed_score && lt->prev->prev !=NULL){
+
             // deattache
+            lt->prev->next = lt->next;
+
+            struct list_number *lt_i = lt->prev;
+            while(lt_i->score < lt->score){
+                if(lt_i->prev == NULL){
+                    break;
+                }
+                lt_i = lt_i->prev;
+            }
+
+            lt_i->next = lt;
 
         }else{
 
         }
-    }*/
+    }
+    */
 }
 
 int list_number_get_participation_number(struct list_number *lt){
@@ -128,7 +158,7 @@ struct list_teammate *list_number_get_list_teammate(struct list_number *lt){
     return lt->teammate_history;
 }
 
-// Get By
+// get element
 struct list_number *list_number_get_by_index(struct list_number *lt, int index){
     for(int i = 0; i<index+1; i++){
         lt = lt->next;
@@ -156,6 +186,19 @@ struct list_number *list_number_get_by_number(struct list_number *lt, int number
     return lt_pre;
 }
 
+// List insert and extract
+void list_number_insert_as_next(struct list_number *lt_des, struct list_number *lt_src){
+    struct list_number *dest_next = lt_des->next;
+
+    lt_des->next = lt_src;
+
+    lt_src->prev = lt_des;
+    lt_src->next = dest_next;
+
+    if(dest_next!=NULL){
+        dest_next->prev = lt_src;
+    }
+}
 //propose_for_test
 int *list_number_propose_for_test(struct list_number *lt){
     int *test_set = malloc(4*sizeof(int));
@@ -208,7 +251,7 @@ char *list_number_to_str(struct list_number *lt){
     }
     */
 
-    char *out = malloc(10*100*sizeof(char));
+    char *out = malloc(20*100*sizeof(char));
     
 
     strcat(out, "list_number{\n");

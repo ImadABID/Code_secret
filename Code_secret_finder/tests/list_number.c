@@ -7,14 +7,20 @@ int main(){
 
     struct list_number *lt = list_number_new();
 
-    printf("%s", list_number_to_str(lt));
-    
+    struct list_number *element_2 = list_number_get_by_index(lt, 2);
+    struct list_number *to_insert = list_number_new_element(23, 13, 3);
+    list_number_insert_as_next(element_2, to_insert);
+
+    printf("%s\n", list_number_to_str(lt));
+
+    /*
     struct list_number *element_0 = list_number_get_by_index(lt, 0);
     printf("%d %lf %p\n",
         list_number_get_number(element_0),
         list_number_get_score(element_0),
         list_number_get_list_teammate(element_0)
     );
+    */
     
 
    //printf("%d\n", list_number_get_number(list_number_get_by_index(lt,8)));
