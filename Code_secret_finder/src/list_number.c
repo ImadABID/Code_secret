@@ -89,6 +89,35 @@ struct list_teammate *list_number_get_list_teammate(struct list_number *lt){
     return lt->next->teammate_history;
 }
 
+struct list_number *list_number_get_by_index(struct list_number *lt, int index){
+    struct list_number *lt_pre;
+    for(int i = 0; i<index+1; i++){
+        lt_pre = lt;
+        lt = lt->next;
+        if(lt == NULL){
+            fprintf(stderr, "Error at list_number_get_by_index : Index out of range\n");
+            exit(-1);
+        }
+    }
+
+    return lt_pre;
+}
+
+struct list_number *list_number_get_by_number(struct list_number *lt, int number){
+    struct list_number *lt_pre = lt;
+    lt = lt->next;
+    while(lt->number != number){
+        lt_pre = lt;
+        lt = lt->next;
+        if(lt == NULL){
+            fprintf(stderr, "Error at list_number_get_by_number : unfounded number\n");
+            exit(-1);
+        }
+    }
+
+    return lt_pre;
+}
+
 //propose_for_test
 int *list_number_propose_for_test(struct list_number *lt){
     int *test_set = malloc(4*sizeof(int));
@@ -122,19 +151,15 @@ int *list_number_propose_for_discovery(struct list_number *lnbr, int discovery_c
     return test_set;
 }
 
-struct list_number *list_number_get_by_index(struct list_number *lt, int index){
-    struct list_number *lt_pre;
-    for(int i = 0; i<index+1; i++){
-        lt_pre = lt;
-        lt = lt->next;
-        if(lt == NULL){
-            fprintf(stderr, "Error at list_number_get_by_index : Index out of range");
-            exit(-1);
-        }
+/*
+//Registeration
+void list_number_register_attempt(struct list_number *lt, int *attempt, int score){
+    
+    for(int i = 0; i<4; i++){
+        list_number_update_score(list_number_get_by_number(lt, attempt[i]));
     }
-
-    return lt_pre;
 }
+*/
 
 // Debug
 char *list_number_to_str(struct list_number *lt){

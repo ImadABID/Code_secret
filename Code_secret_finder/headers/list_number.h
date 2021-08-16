@@ -9,7 +9,9 @@ double list_number_get_score(struct list_number *lt);
 void list_number_set_score(struct list_number *lt, double score);
 struct list_teammate *list_number_get_list_teammate(struct list_number *lt);
 
+// list extractors
 struct list_number *list_number_get_by_index(struct list_number *lt, int index);
+struct list_number *list_number_get_by_number(struct list_number *lt, int number);
 
 //init
 struct list_number *list_number_new();
