@@ -13,10 +13,10 @@ int main(){
     number_insert_as_next(nbr1, nbr2);
 
     char *line;
-    line = number_to_str(nbr1);
+    line = number_to_str(number_get_prev(nbr2));
     printf("%s\n", line);
     free(line);
-    line = number_to_str(nbr2);
+    line = number_to_str(number_get_next(nbr1));
     printf("%s\n", line);
     free(line);
     return 0;
