@@ -7,8 +7,16 @@
 #include "../headers/list_teammate.h"
 
 int main(){
-    struct number *nbr = number_new(12, 2.4, 1, NULL, NULL, NULL);
-    char *line = number_to_str(nbr);
+    struct number *nbr1 = number_new(1, 2.4, 1, NULL, NULL, NULL);
+    struct number *nbr2 = number_new(2, 2.4, 1, NULL, NULL, NULL);
+
+    number_insert_as_next(nbr1, nbr2);
+
+    char *line;
+    line = number_to_str(nbr1);
+    printf("%s\n", line);
+    free(line);
+    line = number_to_str(nbr2);
     printf("%s\n", line);
     free(line);
     return 0;

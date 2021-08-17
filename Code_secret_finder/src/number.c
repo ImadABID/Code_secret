@@ -94,8 +94,16 @@ struct list_teammate *list_number_get_list_teammate(struct number *lt){
     return lt->teammate_history;
 }
 
+struct number *number_get_next(struct number *nbr){
+    return nbr->next;
+}
+
+struct number *number_get_prev(struct number *nbr){
+    return nbr->prev;
+}
+
 // List insert and extract
-void list_number_insert_as_next(struct list_number *lnbr, struct number *nbr, struct number *nbr_insert){
+void number_insert_as_next(struct number *nbr, struct number *nbr_insert){
 
     struct number *nbr_next = nbr->next;
 
@@ -112,7 +120,7 @@ void list_number_insert_as_next(struct list_number *lnbr, struct number *nbr, st
 // Debug
 char *number_to_str(struct number *nbr){
     char *line = malloc(100*sizeof(char));
-    sprintf(line, "\t{number:%d, score:%lf, participation_number:%d, prev:%p, next:%p}\n", nbr->number, nbr->score, nbr->participation_number, nbr->prev, nbr->next);
+    sprintf(line, "\t%p{number:%d, score:%lf, participation_number:%d, prev:%p, next:%p}\n", nbr, nbr->number, nbr->score, nbr->participation_number, nbr->prev, nbr->next);
     
     return line;
 }
