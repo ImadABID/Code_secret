@@ -15,9 +15,12 @@ int main(){
     list_teammate_register(lt, 2);
     list_teammate_register(lt, 3);
 
-    printf("%s\n", list_teammate_to_str(lt));
+    char *str = malloc(10*100*sizeof(char));
+    list_teammate_to_str(lt, str);
+    printf("%s\n", str);
+    free(str);
 
-    
+
     int *sq = malloc(4*sizeof(int));
     list_teammate_choose_squad(lt, sq);
     printf("squad : * %d %d %d\n", sq[1], sq[2], sq[3]);

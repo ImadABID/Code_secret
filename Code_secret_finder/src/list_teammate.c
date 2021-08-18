@@ -5,27 +5,29 @@
 #include "../headers/list_teammate.h"
 
 // Private functions header
-void list_teammate_organise(struct list_teammate *previous_teammate);
-char list_teammate_empty(struct list_teammate *lt);
+void teammate_increment_occasion_number(struct list_teammate *lt, struct teammate *previous_teammate);
 
-struct list_teammate{
+struct teammate{
     int number;
     int teammate_occasion_number;
-    struct list_teammate *next;
+    struct teammate *next;
 };
 
-char list_teammate_empty(struct list_teammate *lt){
-    return lt->next == NULL;
-}
+struct list_teammate{
+    struct teammate *next;
+};
 
-struct list_teammate *list_teammate_new(){
-    struct list_teammate *lt_new = malloc(sizeof(struct list_teammate));
-    lt_new->next = NULL;
-    return lt_new;
+struct teammate *teammate_new(int number, struct teammate *next){
+    struct teammate *tm = malloc(sizeof(struct teammate));
+    tm->number = number;
+    tm->teammate_occasion_number = 1;
+    tm->next = next;
+    return tm;
 }
 
 struct list_teammate *list_teammate_new_all_once_except(int nbr){
-    struct list_teammate *lt = list_teammate_new();
+    struct list_teammate *lt = malloc(sizeof(struct list_teammate));
+    lt->next = NULL;
     for(int i=0; i<10; i++){
         if(i!=nbr)
             list_teammate_register(lt, i);
@@ -34,85 +36,86 @@ struct list_teammate *list_teammate_new_all_once_except(int nbr){
 }
 
 // Free
+
+void teammate_free(struct teammate *tm){
+    if(tm != NULL){
+        teammate_free(tm->next);
+        free(tm);
+    }
+}
+
 void list_teammate_free(struct list_teammate *lt){
     if(lt != NULL){
-        list_teammate_free(lt->next);
+        teammate_free(lt->next);
         free(lt);
     }
 }
 
 void list_teammate_register(struct list_teammate *lt, int nbr){
-    char registered = 0;
-    struct list_teammate *lt_pre_i;
-    struct list_teammate *lt_i = lt;
-    while(lt_i->next != NULL){
-        lt_pre_i = lt_i;
-        lt_i = lt_i->next;
-        if(lt_i->number == nbr){
-            lt_i->teammate_occasion_number++;
-            list_teammate_organise(lt_pre_i);
-            registered = 1;
-            break;
-        }
+
+    struct teammate *tm_prev = NULL;
+    struct teammate *tm = lt->next;
+    while(tm !=NULL && tm->number != nbr){
+        tm_prev = tm;
+        tm = tm->next;
     }
 
-    if(!registered){
-        struct list_teammate *teammate = malloc(sizeof(struct list_teammate));
-        teammate->number = nbr;
-        teammate->teammate_occasion_number = 1;
-        teammate->next = lt->next;
-        lt->next = teammate;
+    if(tm == NULL){
+        lt->next = teammate_new(nbr, lt->next);
+    }else{
+        teammate_increment_occasion_number(lt, tm_prev);
     }
 }
 
-void list_teammate_organise(struct list_teammate *previous_teammate){
-    
-    if(list_teammate_empty(previous_teammate)){
-        fprintf(stderr, "list_teammate_organise : No teammate to organise\n");
+void teammate_increment_occasion_number(struct list_teammate *lt, struct teammate *previous_teammate){
+
+    struct teammate *tm_to_organise;
+    if(previous_teammate == NULL){
+        tm_to_organise = lt->next;
+    }else{
+        tm_to_organise = previous_teammate->next;
+    }
+    if(tm_to_organise == NULL){
+        fprintf(stderr, "Error at teammate_increment_occasion_number : No next element\n");
+        exit(-1);
     }
 
-    char organiased = 0;
+    tm_to_organise->teammate_occasion_number ++;
 
-    struct list_teammate *lt_to_organise = previous_teammate->next;
-
-    previous_teammate->next = lt_to_organise->next;
-
-    struct list_teammate *lt_i_pre;
-    struct list_teammate *lt_i = previous_teammate;
-
-    while(lt_i->next!=NULL){
-        lt_i_pre = lt_i;
-        lt_i = lt_i->next;
-
-        if(lt_to_organise->teammate_occasion_number <= lt_i->teammate_occasion_number){
-
-            lt_i_pre->next = lt_to_organise;
-            lt_to_organise->next = lt_i;
-
-            organiased = 1;
-            break;
-        }
+    if(previous_teammate == NULL){
+        lt->next = tm_to_organise->next;
+    }else{
+        previous_teammate->next = tm_to_organise->next;
     }
 
-    if(!organiased){
-        lt_i->next = lt_to_organise;
-        lt_to_organise->next = NULL;
+    while(previous_teammate->next != NULL && tm_to_organise->teammate_occasion_number <= previous_teammate->next->teammate_occasion_number){
+        previous_teammate = previous_teammate->next;
     }
+
+    tm_to_organise->next = previous_teammate->next;
+    previous_teammate->next = tm_to_organise;
+
 }
 
 void list_teammate_choose_squad(struct list_teammate *lt, int *squad_table){
+    struct teammate * tm = lt->next;
     for(int i = 1; i<4; i++){
-        lt = lt->next;
-        if(lt==NULL){
+        if(tm==NULL){
             fprintf(stderr, "Error at list_teammate_choose_squad : list_teammate uncompleted\n");
             exit(-1);
         }
-        squad_table[i] = lt->number;
+        squad_table[i] = tm->number;
+        tm = tm->next;
     }
 }
 
 // Debug
-char *list_teammate_to_str(struct list_teammate *lt){
+
+void teammate_to_str(struct teammate *tm, char *str){
+    sprintf(str, "\t{number:%d, teammate_occasion_number:%d}\n", tm->number, tm->teammate_occasion_number);
+}
+
+void list_teammate_to_str(struct list_teammate *lt, char *str){
     /*
     list_teammate{
         {number:1, teammate_occasion_number:2}
@@ -120,20 +123,16 @@ char *list_teammate_to_str(struct list_teammate *lt){
     }
     */
 
-    char *out = malloc(10*50*sizeof(char));
-    
+    strcat(str, "list_teammate{\n");
 
-    strcat(out, "list_teammate{\n");
-
-    struct list_teammate *lt_i = lt;
+    struct teammate *tm = lt->next;
     char *line = malloc(50*sizeof(char));
 
-    while(lt_i->next != NULL){
-        lt_i = lt_i->next;
-        sprintf(line, "\t{number:%d, teammate_occasion_number:%d}\n", lt_i->number, lt_i->teammate_occasion_number);
-        strcat(out,line);
+    while(tm != NULL){
+        teammate_to_str(tm, line);
+        strcat(str,line);
+        tm = tm->next;
     }
-    strcat(out,"}");
+    strcat(str,"}");
     free(line);
-    return out;
 }
