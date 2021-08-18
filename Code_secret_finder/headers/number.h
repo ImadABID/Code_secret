@@ -21,7 +21,7 @@ int number_get_number(struct number *lt);
 double number_get_score(struct number *lt);
 void number_update_score(struct number *nbr, double score);
 int number_get_participation_number(struct number *lt);
-struct list_teammate *list_number_get_list_teammate(struct number *lt);
+struct list_teammate *number_get_list_teammate(struct number *lt);
 struct number *number_get_next(struct number *nbr);
 struct number *number_get_prev(struct number *nbr);
 
@@ -29,6 +29,6 @@ struct number *number_get_prev(struct number *nbr);
 void number_insert_as_next(struct number *nbr, struct number *nbr_insert);
 
 // Debug
-char *number_to_str(struct number *nbr);
+void number_to_str(struct number *nbr, char *str);
 
 #endif

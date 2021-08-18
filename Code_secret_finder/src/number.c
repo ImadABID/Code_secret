@@ -25,7 +25,6 @@ struct number *number_new(
     struct number *next,
     struct number *prev
 ){
-
     struct number *nbr = malloc(sizeof(struct number));
 
     nbr->number = number;
@@ -37,6 +36,19 @@ struct number *number_new(
     nbr->prev = prev;
 
     return nbr;
+}
+
+//free
+void number_free(struct number *nbr){
+    if(nbr != NULL){
+        if(nbr->prev!=NULL){
+            number_free(nbr->prev);
+        }else{
+            number_free(nbr->next);
+            list_teammate_free(nbr->teammate_history);
+            free(nbr);
+        }
+    }
 }
 
 // setters & getters
@@ -90,7 +102,7 @@ int number_get_participation_number(struct number *lt){
     return lt->participation_number;
 }
 
-struct list_teammate *list_number_get_list_teammate(struct number *lt){
+struct list_teammate *number_get_list_teammate(struct number *lt){
     return lt->teammate_history;
 }
 
@@ -118,9 +130,6 @@ void number_insert_as_next(struct number *nbr, struct number *nbr_insert){
 }
 
 // Debug
-char *number_to_str(struct number *nbr){
-    char *line = malloc(100*sizeof(char));
-    sprintf(line, "\t%p{number:%d, score:%lf, participation_number:%d, prev:%p, next:%p}\n", nbr, nbr->number, nbr->score, nbr->participation_number, nbr->prev, nbr->next);
-    
-    return line;
+void number_to_str(struct number *nbr, char *str){
+    sprintf(str, "\t%p{number:%d, score:%lf, participation_number:%d, prev:%p, next:%p}\n", nbr, nbr->number, nbr->score, nbr->participation_number, nbr->prev, nbr->next);
 }

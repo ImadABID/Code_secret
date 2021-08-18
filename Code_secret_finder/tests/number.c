@@ -12,11 +12,11 @@ int main(){
 
     number_insert_as_next(nbr1, nbr2);
 
-    char *line;
-    line = number_to_str(number_get_prev(nbr2));
+    char *line = malloc(200*sizeof(char));
+    number_to_str(number_get_prev(nbr2), line);
     printf("%s\n", line);
-    free(line);
-    line = number_to_str(number_get_next(nbr1));
+
+    number_to_str(number_get_next(nbr1), line);
     printf("%s\n", line);
     free(line);
     return 0;
