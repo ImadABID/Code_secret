@@ -33,7 +33,13 @@ struct list_teammate *list_teammate_new_all_once_except(int nbr){
     return lt;
 }
 
-// Free ...
+// Free
+void list_teammate_free(struct list_teammate *lt){
+    if(lt != NULL){
+        list_teammate_free(lt->next);
+        free(lt);
+    }
+}
 
 void list_teammate_register(struct list_teammate *lt, int nbr){
     char registered = 0;
