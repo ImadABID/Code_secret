@@ -22,7 +22,7 @@ list_teammate.o : src/list_teammate.c headers/list_teammate.h
 
 
 list_number : list_number.o number.o list_teammate.o tests/list_number.c
-	gcc -o bin_tmp/list_number_test tests/list_number.c bin_tmp/list_number.o bin_tmp/list_teammate.o
+	gcc -o bin_tmp/list_number_test tests/list_number.c bin_tmp/list_number.o bin_tmp/number.o bin_tmp/list_teammate.o
 	bin_tmp/list_number_test
 
 list_number.o: src/list_number.c headers/list_number.h
