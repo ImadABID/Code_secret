@@ -65,40 +65,9 @@ double number_get_score(struct number *lt){
 
 void number_update_score(struct number *nbr, double score){
 
-    double old_score = nbr->score;
-
     nbr->score = (nbr->participation_number*nbr->score + score)/(nbr->participation_number+1);
     nbr->participation_number++;
 
-    score = nbr->score;
-
-    /*
-    //Organise
-    if(old_score != score){
-        char incresed_score = old_score < score;
-
-        struct list_number next_ele;
-
-        if(incresed_score && lt->prev->prev !=NULL){
-
-            // deattache
-            lt->prev->next = lt->next;
-
-            struct list_number *lt_i = lt->prev;
-            while(lt_i->score < lt->score){
-                if(lt_i->prev == NULL){
-                    break;
-                }
-                lt_i = lt_i->prev;
-            }
-
-            lt_i->next = lt;
-
-        }else{
-
-        }
-    }
-    */
 }
 
 int number_get_participation_number(struct number *lt){
@@ -129,6 +98,30 @@ void number_insert_as_next(struct number *nbr, struct number *nbr_insert){
 
     if(nbr_next!=NULL){
         nbr_next->prev = nbr_insert;
+    }
+}
+
+void number_insert_as_prev(struct list_number *lnbr, struct number *nbr, struct number *nbr_insert){
+    if(nbr->prev == NULL){
+        list_number_set_first_number(lnbr, nbr_insert);
+        nbr_insert->prev = NULL;
+    }else{
+        nbr->prev->next = nbr_insert;
+        nbr_insert->prev = nbr->prev;
+    }
+
+    nbr_insert->next = nbr;
+    nbr->prev = nbr_insert;
+}
+
+void number_extract(struct list_number *lnbr, struct number *nbr){
+    if(nbr = list_number_get_by_index(lnbr, 0)){
+        list_number_set_first_number(lnbr, nbr->next);
+        nbr->next->prev = NULL;
+    }else{
+        nbr->prev->next = nbr->next;
+        if(nbr->next != NULL)
+            nbr->next->prev = nbr->prev;
     }
 }
 

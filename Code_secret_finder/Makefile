@@ -29,7 +29,7 @@ list_number.o: src/list_number.c headers/list_number.h
 	gcc -o bin_tmp/list_number.o -c src/list_number.c
 
 number : number.o list_number.o list_teammate.o tests/number.c
-	gcc -o bin_tmp/number_test tests/number.c bin_tmp/number.o bin_tmp/list_teammate.o
+	gcc -o bin_tmp/number_test tests/number.c bin_tmp/number.o bin_tmp/list_number.o bin_tmp/list_teammate.o
 	bin_tmp/number_test
 
 number.o: src/number.c headers/number.h

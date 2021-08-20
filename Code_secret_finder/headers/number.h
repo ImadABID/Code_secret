@@ -30,6 +30,8 @@ struct number *number_get_prev(struct number *nbr);
 
 // List insert and extract
 void number_insert_as_next(struct number *nbr, struct number *nbr_insert);
+void number_insert_as_prev(struct list_number *lnbr, struct number *nbr, struct number *nbr_insert);
+void number_extract(struct list_number *lnbr, struct number *nbr);
 
 // Debug
 void number_to_str(struct number *nbr, char *str);
