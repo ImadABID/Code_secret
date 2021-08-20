@@ -15,7 +15,7 @@ struct list_number *list_number_new(){
 
     double score_esperence = 1.6;
 
-    struct list_number *lnbr;
+    struct list_number *lnbr = malloc(sizeof(struct list_number));
 
     struct number *nbr;
     struct number *nbr_prev = number_new(
@@ -44,7 +44,13 @@ struct list_number *list_number_new(){
     return lnbr;
 }
 
-// Free ...
+// Free
+void list_number_free(struct list_number *lnbr){
+    if(lnbr != NULL){
+        number_free(lnbr->first_number);
+        free(lnbr);
+    }
+}
 
 // get element
 struct number *list_number_get_by_index(struct list_number *lnbr, int index){
@@ -124,8 +130,8 @@ void list_number_to_str(struct list_number *lnbr, char *str){
     }
     */
 
-    char *line = malloc(200*sizeof(char));
-
+    char *line = malloc(400*sizeof(char));
+    
     strcat(str, "list_number{\n");
 
     struct number *nbr = lnbr->first_number;

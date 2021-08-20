@@ -44,7 +44,10 @@ void number_free(struct number *nbr){
         if(nbr->prev!=NULL){
             number_free(nbr->prev);
         }else{
-            number_free(nbr->next);
+            if(nbr->next != NULL){
+                nbr->next->prev = NULL;
+                number_free(nbr->next);
+            }
             list_teammate_free(nbr->teammate_history);
             free(nbr);
         }

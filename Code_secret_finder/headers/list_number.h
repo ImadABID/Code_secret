@@ -6,6 +6,9 @@ struct list_number;
 //init
 struct list_number *list_number_new();
 
+// Free
+void list_number_free(struct list_number *lnbr);
+
 // get element
 struct number *list_number_get_by_index(struct list_number *lnbr, int index);
 struct number *list_number_get_by_number(struct list_number *lnbr, int number);

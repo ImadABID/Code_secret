@@ -16,6 +16,9 @@ struct number *number_new(
     struct number *prev
 );
 
+//free
+void number_free(struct number *nbr);
+
 // setters & getters
 int number_get_number(struct number *lt);
 double number_get_score(struct number *lt);
