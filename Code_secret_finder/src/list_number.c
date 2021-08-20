@@ -10,6 +10,9 @@ struct list_number{
     struct number *first_number;
 };
 
+//Private functions
+void list_number_organise(struct list_number *lnbr, struct number *nbr);
+
 // init
 struct list_number *list_number_new(){
 
@@ -83,6 +86,11 @@ struct number *list_number_get_by_number(struct list_number *lnbr, int number){
     return nbr;
 }
 
+//set
+void list_number_set_first_number(struct list_number *lnbr, struct number *nbr){
+    lnbr->first_number = nbr;
+}
+
 //propose_for_test
 void list_number_propose_for_test(struct list_number *lnbr, int *test_set){
 
@@ -120,6 +128,29 @@ void list_number_register_attempt(struct list_number *lt, int *attempt, int scor
     }
 }
 */
+
+void list_number_organise(struct list_number *lnbr, struct number *nbr){
+
+    struct number *next_nbr;
+
+    next_nbr = number_get_prev(nbr);
+    while(next_nbr != NULL && number_get_number(next_nbr) < number_get_number(nbr)){
+        next_nbr = number_get_prev(next_nbr);
+    }
+    if(next_nbr != number_get_prev(nbr)){
+        number_extract(lnbr, nbr);
+        number_insert_as_next(next_nbr, nbr);
+    }else{
+        next_nbr = number_get_next(nbr);
+        while(next_nbr != NULL && number_get_number(nbr) < number_get_number(next_nbr)){
+            next_nbr = number_get_next(next_nbr);
+        }
+        if(next_nbr != number_get_next(nbr)){
+            number_extract(lnbr, nbr);
+            number_insert_as_prev(lnbr, next_nbr, nbr);
+        }
+    }
+}
 
 // Debug
 void list_number_to_str(struct list_number *lnbr, char *str){
