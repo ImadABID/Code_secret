@@ -6,8 +6,12 @@
 #include "../headers/number.h"
 #include "../headers/list_teammate.h"
 
+#define MAX_ATTEMPTS 100
+
 struct list_number{
     struct number *first_number;
+    int *proposition_hisory;
+    int proposition_hisory_index;
 };
 
 //Private functions
@@ -38,6 +42,9 @@ struct list_number *list_number_new(){
         nbr_prev = nbr;
     }
 
+    lnbr->proposition_hisory = malloc(MAX_ATTEMPTS * 4 * sizeof(int));
+    lnbr->proposition_hisory_index = 0;
+
     return lnbr;
 }
 
@@ -45,6 +52,7 @@ struct list_number *list_number_new(){
 void list_number_free(struct list_number *lnbr){
     if(lnbr != NULL){
         number_free(lnbr->first_number);
+        free(lnbr->proposition_hisory);
         free(lnbr);
     }
 }
@@ -128,11 +136,40 @@ void list_number_propose_for_discovery(struct list_number *lnbr, int discovery_c
     list_teammate_choose_squad(lt, test_set);
 }
 
+//propose_random
+void list_number_propose_random(int *test_set){
+
+    test_set[0] = (int) ( (double) rand() / (double) RAND_MAX * 10.0);
+
+    test_set[1] = test_set[0];
+    while (test_set[1] == test_set[0])
+    {
+        test_set[1] = (int) ( (double) rand() / (double) RAND_MAX * 10.0);
+    }
+
+    test_set[2] = test_set[0];
+    while (test_set[2] == test_set[0] || test_set[2] == test_set[1])
+    {
+        test_set[2] = (int) ( (double) rand() / (double) RAND_MAX * 10.0);
+    }
+
+    test_set[3] = test_set[0];
+    while (test_set[3] == test_set[0] || test_set[3] == test_set[1] || test_set[3] == test_set[2])
+    {
+        test_set[3] = (int) ( (double) rand() / (double) RAND_MAX * 10.0);
+    }
+
+}
+
 
 //Registeration
 void list_number_register_attempt(struct list_number *lnbr, int *attempt, double score){
     
     for(int i = 0; i<4; i++){
+
+        lnbr->proposition_hisory[lnbr->proposition_hisory_index] = attempt[i];
+        lnbr->proposition_hisory_index++;
+
         struct number *nbr = list_number_get_by_number(lnbr, attempt[i]);
         number_update_score(nbr, score);
         list_number_organise(lnbr, nbr);
