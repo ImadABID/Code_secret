@@ -87,35 +87,46 @@ struct number *number_get_prev(struct number *nbr){
 }
 
 // List insert and extract
-void number_insert_as_next(struct number *nbr, struct number *nbr_insert){
+void number_insert_as_next(struct list_number *lnbr, struct number *nbr, struct number *nbr_insert){
 
-    struct number *nbr_next = nbr->next;
-
-    nbr->next = nbr_insert;
+    struct number *next_nbr = NULL;
 
     nbr_insert->prev = nbr;
-    nbr_insert->next = nbr_next;
-
-    if(nbr_next!=NULL){
-        nbr_next->prev = nbr_insert;
+    if(nbr == NULL){
+        next_nbr = list_number_get_first_number(lnbr);
+        list_number_set_first_number(lnbr, nbr_insert);
+    }else{
+        next_nbr = nbr->next;
+        nbr->next = nbr_insert;
     }
+
+    nbr_insert->next = next_nbr;
+    if(next_nbr != NULL){
+        next_nbr->prev = nbr_insert;
+    }
+
 }
 
 void number_insert_as_prev(struct list_number *lnbr, struct number *nbr, struct number *nbr_insert){
-    if(nbr->prev == NULL){
-        list_number_set_first_number(lnbr, nbr_insert);
-        nbr_insert->prev = NULL;
-    }else{
-        nbr->prev->next = nbr_insert;
-        nbr_insert->prev = nbr->prev;
-    }
+
+    struct number *prev_nbr;
 
     nbr_insert->next = nbr;
-    nbr->prev = nbr_insert;
+    if(nbr == NULL){
+        prev_nbr = list_number_get_last_number(lnbr);
+    }else{
+        prev_nbr = nbr->prev;
+        nbr->prev = nbr_insert;
+    }
+
+    nbr_insert->prev = prev_nbr;
+    if(prev_nbr != NULL){
+        prev_nbr->next = nbr_insert;
+    }
 }
 
 void number_extract(struct list_number *lnbr, struct number *nbr){
-    if(nbr = list_number_get_by_index(lnbr, 0)){
+    if(nbr == list_number_get_by_index(lnbr, 0)){
         list_number_set_first_number(lnbr, nbr->next);
         nbr->next->prev = NULL;
     }else{

@@ -19,18 +19,12 @@ struct list_number *list_number_new(){
     double score_esperence = 1.6;
 
     struct list_number *lnbr = malloc(sizeof(struct list_number));
+    lnbr->first_number = NULL;
 
     struct number *nbr;
-    struct number *nbr_prev = number_new(
-        0, score_esperence, 1,
-        list_teammate_new_all_once_except(0),
-        NULL,
-        NULL
-    );
-
-    lnbr->first_number = nbr_prev;
+    struct number *nbr_prev = NULL;
     
-    for(int i=1; i<10; i++){
+    for(int i=0; i<10; i++){
 
         nbr = number_new(
             i, score_esperence, 1,
@@ -39,7 +33,7 @@ struct list_number *list_number_new(){
             NULL
         );
 
-        number_insert_as_next(nbr_prev, nbr);
+        number_insert_as_next(lnbr, nbr_prev, nbr);
 
         nbr_prev = nbr;
     }
@@ -86,9 +80,24 @@ struct number *list_number_get_by_number(struct list_number *lnbr, int number){
     return nbr;
 }
 
-//set
+//getter & setter
+struct number *list_number_get_first_number(struct list_number *lnbr){
+    return lnbr->first_number;
+}
+
 void list_number_set_first_number(struct list_number *lnbr, struct number *nbr){
     lnbr->first_number = nbr;
+}
+
+struct number *list_number_get_last_number(struct list_number *lnbr){
+    struct number *last_number = lnbr->first_number;
+    if(lnbr->first_number == NULL)
+        return NULL;
+
+    while(number_get_next(last_number) != NULL){
+        last_number = number_get_next(last_number);
+    }
+    return last_number;
 }
 
 //propose_for_test
@@ -119,30 +128,32 @@ void list_number_propose_for_discovery(struct list_number *lnbr, int discovery_c
     list_teammate_choose_squad(lt, test_set);
 }
 
-/*
+
 //Registeration
-void list_number_register_attempt(struct list_number *lt, int *attempt, int score){
+void list_number_register_attempt(struct list_number *lnbr, int *attempt, double score){
     
     for(int i = 0; i<4; i++){
-        list_number_update_score(list_number_get_by_number(lt, attempt[i]));
+        struct number *nbr = list_number_get_by_number(lnbr, attempt[i]);
+        number_update_score(nbr, score);
+        list_number_organise(lnbr, nbr);
     }
 }
-*/
+
 
 void list_number_organise(struct list_number *lnbr, struct number *nbr){
 
     struct number *next_nbr;
 
     next_nbr = number_get_prev(nbr);
-    while(next_nbr != NULL && number_get_number(next_nbr) < number_get_number(nbr)){
+    while(next_nbr != NULL && number_get_score(next_nbr) < number_get_score(nbr)){
         next_nbr = number_get_prev(next_nbr);
     }
     if(next_nbr != number_get_prev(nbr)){
         number_extract(lnbr, nbr);
-        number_insert_as_next(next_nbr, nbr);
+        number_insert_as_next(lnbr, next_nbr, nbr);
     }else{
         next_nbr = number_get_next(nbr);
-        while(next_nbr != NULL && number_get_number(nbr) < number_get_number(next_nbr)){
+        while(next_nbr != NULL && number_get_score(nbr) < number_get_score(next_nbr)){
             next_nbr = number_get_next(next_nbr);
         }
         if(next_nbr != number_get_next(nbr)){
@@ -163,7 +174,7 @@ void list_number_to_str(struct list_number *lnbr, char *str){
 
     char *line = malloc(400*sizeof(char));
     
-    strcat(str, "list_number{\n");
+    strcpy(str, "list_number{\n");
 
     struct number *nbr = lnbr->first_number;
 
