@@ -5,7 +5,6 @@
 
 int main(){
 
-    /*
     struct list_number *lnbr = list_number_new();
 
     double score=0;
@@ -15,13 +14,8 @@ int main(){
     int *test_set = malloc(4*sizeof(int));
 
     while(score != 4){
-        if(dicover){
-            list_number_propose_for_discovery(lnbr, 0, test_set);
-            dicover = 0;
-        }else{
-            list_number_propose_for_test(lnbr, test_set);
-            dicover = 1;
-        }
+
+        list_number_decide_code(lnbr, test_set);
 
         printf("Attempt %d\t%d%d%d%d\t",attempt,
             test_set[0], test_set[1],
@@ -36,15 +30,6 @@ int main(){
     free(test_set);
 
     list_number_free(lnbr);
-    */
-
-   int *test = malloc(4*sizeof(int));
-   for(int i = 0; i < 30; i++){
-        list_number_propose_random(test);
-        printf("%d %d %d %d\n", test[0], test[1], test[2], test[3]);
-   }
-
-   free(test);
-
+ 
     return 0;
 }

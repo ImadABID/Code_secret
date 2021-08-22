@@ -16,6 +16,7 @@ struct list_number{
 
 //Private functions
 void list_number_organise(struct list_number *lnbr, struct number *nbr);
+char list_number_already_tested(struct list_number *lnbr, int *test_set);
 
 // init
 struct list_number *list_number_new(){
@@ -176,6 +177,21 @@ void list_number_register_attempt(struct list_number *lnbr, int *attempt, double
     }
 }
 
+char list_number_already_tested(struct list_number *lnbr, int *test_set){
+    for(int i = 0; i < lnbr->proposition_hisory_index; i+=4){
+        if(
+            test_set[0] == lnbr->proposition_hisory[i] &&
+            test_set[1] == lnbr->proposition_hisory[i+1] &&
+            test_set[2] == lnbr->proposition_hisory[i+2] &&
+            test_set[3] == lnbr->proposition_hisory[i+3]
+        ){
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 
 void list_number_organise(struct list_number *lnbr, struct number *nbr){
 
@@ -198,6 +214,24 @@ void list_number_organise(struct list_number *lnbr, struct number *nbr){
             number_insert_as_prev(lnbr, next_nbr, nbr);
         }
     }
+}
+
+// Decider
+void list_number_decide_code(struct list_number *lnbr, int *test_set){
+    static int discover = 0;
+
+    if(discover){
+        list_number_propose_for_discovery(lnbr, 0, test_set);
+        discover = 0;
+    }else{
+        list_number_propose_for_test(lnbr, test_set);
+        discover = 1;
+    }
+
+    while(list_number_already_tested(lnbr, test_set)){
+        list_number_propose_random(test_set);
+    }
+
 }
 
 // Debug

@@ -27,6 +27,10 @@ void list_number_propose_random(int *test_set);
 //Registeration
 void list_number_register_attempt(struct list_number *lnbr, int *attempt, double score);
 
+
+// Decider
+void list_number_decide_code(struct list_number *lnbr, int *test_set);
+
 //Debug
 void list_number_to_str(struct list_number *lnbr, char *str);
 
