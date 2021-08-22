@@ -110,6 +110,27 @@ struct number *list_number_get_last_number(struct list_number *lnbr){
     return last_number;
 }
 
+struct number *list_number_get_least_tested(struct list_number *lnbr){
+
+    struct number *nbr = lnbr->first_number;
+    if(nbr == NULL){
+        return NULL;
+    }
+
+    struct number *nbr_min = nbr;
+    
+    while(nbr != NULL){
+
+        if( number_get_participation_number(nbr) < number_get_participation_number(nbr_min)
+        ){
+            nbr_min = nbr;
+        }
+
+        nbr = number_get_next(nbr);
+    }
+    return nbr_min;
+}
+
 //propose_for_test
 void list_number_propose_for_test(struct list_number *lnbr, int *test_set){
 
@@ -128,9 +149,9 @@ void list_number_propose_for_test(struct list_number *lnbr, int *test_set){
 }
 
 //propose_for_discover
-void list_number_propose_for_discovery(struct list_number *lnbr, int discovery_choice, int *test_set){
+void list_number_propose_for_discovery(struct list_number *lnbr, int *test_set){
 
-    struct number *nbr = list_number_get_by_index(lnbr, discovery_choice);
+    struct number *nbr = list_number_get_least_tested(lnbr);
 
     test_set[0] = number_get_number(nbr);
 
@@ -271,7 +292,7 @@ void list_number_decide_code(struct list_number *lnbr, int *test_set){
     static int discover = 0;
 
     if(discover){
-        list_number_propose_for_discovery(lnbr, 0, test_set);
+        list_number_propose_for_discovery(lnbr, test_set);
         discover = 0;
     }else{
         list_number_propose_for_test(lnbr, test_set);

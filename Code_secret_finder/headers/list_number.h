@@ -16,12 +16,12 @@ struct number *list_number_get_by_number(struct list_number *lnbr, int number);
 //getter & setter
 struct number *list_number_get_first_number(struct list_number *lnbr);
 void list_number_set_first_number(struct list_number *lnbr, struct number *nbr);
-
 struct number *list_number_get_last_number(struct list_number *lnbr);
+struct number *list_number_get_least_tested(struct list_number *lnbr);
 
 //propose
 void list_number_propose_for_test(struct list_number *lnbr, int *test_set);
-void list_number_propose_for_discovery(struct list_number *lnbr, int discovery_choice, int *test_set);
+void list_number_propose_for_discovery(struct list_number *lnbr, int *test_set);
 void list_number_propose_random(int *test_set);
 
 //Registeration
