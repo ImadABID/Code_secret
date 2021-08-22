@@ -17,6 +17,7 @@ struct list_number{
 //Private functions
 void list_number_organise(struct list_number *lnbr, struct number *nbr);
 char list_number_already_tested(struct list_number *lnbr, int *test_set);
+char list_number_already_tested_no_order(struct list_number *lnbr, int *test_set);
 
 // init
 struct list_number *list_number_new(){
@@ -192,6 +193,55 @@ char list_number_already_tested(struct list_number *lnbr, int *test_set){
     return 0;
 }
 
+char list_number_already_tested_no_order(struct list_number *lnbr, int *test_set){
+
+    char nbr1_exist = 0;
+    char nbr2_exist = 0;
+    char nbr3_exist = 0;
+    char nbr4_exist = 0;
+
+    for(int i = 0; i < lnbr->proposition_hisory_index; i+=4){
+        for(int j = 0; j<4; j++){
+            if(lnbr->proposition_hisory[i] == test_set[j]){
+                nbr1_exist = 1;
+                break;
+            }
+        }
+
+        for(int j = 0; j<4; j++){
+            if(lnbr->proposition_hisory[i+1] == test_set[j]){
+                nbr2_exist = 1;
+                break;
+            }
+        }
+
+        for(int j = 0; j<4; j++){
+            if(lnbr->proposition_hisory[i+2] == test_set[j]){
+                nbr3_exist = 1;
+                break;
+            }
+        }
+
+        for(int j = 0; j<4; j++){
+            if(lnbr->proposition_hisory[i+3] == test_set[j]){
+                nbr4_exist = 1;
+                break;
+            }
+        }
+
+        if(nbr1_exist == 1 && nbr2_exist == 1 && nbr3_exist == 1 && nbr4_exist == 1){
+            return 1;
+        }else{
+            nbr1_exist = 0;
+            nbr2_exist = 0;
+            nbr3_exist = 0;
+            nbr4_exist = 0;
+        }
+    }
+
+    return 0;
+}
+
 
 void list_number_organise(struct list_number *lnbr, struct number *nbr){
 
@@ -228,7 +278,7 @@ void list_number_decide_code(struct list_number *lnbr, int *test_set){
         discover = 1;
     }
 
-    while(list_number_already_tested(lnbr, test_set)){
+    while(list_number_already_tested_no_order(lnbr, test_set)){
         list_number_propose_random(test_set);
     }
 
@@ -256,4 +306,15 @@ void list_number_to_str(struct list_number *lnbr, char *str){
     }
     strcat(str,"}");
     free(line);
+}
+
+void list_number_to_str_in_1_line(struct list_number *lnbr, char *str){
+    struct number *nbr = lnbr->first_number;
+    strcpy(str, "\t");
+    char *slice = malloc(10*sizeof(char));
+    while(nbr != NULL){
+        sprintf(slice, "%d:%d:%lf ", number_get_number(nbr), number_get_participation_number(nbr), number_get_score(nbr));
+        strcat(str,slice);
+        nbr = number_get_next(nbr);
+    }
 }

@@ -33,5 +33,6 @@ void list_number_decide_code(struct list_number *lnbr, int *test_set);
 
 //Debug
 void list_number_to_str(struct list_number *lnbr, char *str);
+void list_number_to_str_in_1_line(struct list_number *lnbr, char *str);
 
 #endif
