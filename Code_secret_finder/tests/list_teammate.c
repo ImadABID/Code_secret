@@ -4,8 +4,11 @@
 
 #include "../headers/list_teammate.h"
 
+#include"../headers/all_sets.h"
+
 int main(){
-    
+    printf("%d\n", ALL_SETS[0][2]);
+    /*
     struct list_teammate *lt = list_teammate_new_all_once_except(0);
     
     list_teammate_register(lt, 1);
@@ -27,6 +30,6 @@ int main(){
     free(sq);
 
     list_teammate_free(lt);
-    
+    */
     return 0;
 }

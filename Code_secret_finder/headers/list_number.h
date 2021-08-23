@@ -27,6 +27,9 @@ void list_number_propose_random(int *test_set);
 //Registeration
 void list_number_register_attempt(struct list_number *lnbr, int *attempt, double score);
 
+void list_number_organise(struct list_number *lnbr, struct number *nbr);
+char list_number_already_tested(struct list_number *lnbr, int *test_set);
+char list_number_already_tested_no_order(struct list_number *lnbr, int *test_set);
 
 // Decider
 void list_number_decide_code(struct list_number *lnbr, int *test_set);

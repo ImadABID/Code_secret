@@ -12,8 +12,7 @@ int main(){
 
     double score=0;
     int attempt = 1;
-    
-    char dicover = 0;
+
     int *test_set = malloc(4*sizeof(int));
     char *status = malloc(1000 * sizeof(char));
 

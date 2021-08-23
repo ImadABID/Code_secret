@@ -34,3 +34,10 @@ number : number.o list_number.o list_teammate.o tests/number.c
 
 number.o: src/number.c headers/number.h
 	gcc -o bin_tmp/number.o -c src/number.c
+
+all_sets : list_number.o
+	gcc -o bin_tmp/generate_all_sets tests/all_sets.c bin_tmp/list_number.o bin_tmp/number.o bin_tmp/list_teammate.o
+
+generate_all_sets : all_sets
+	bin_tmp/generate_all_sets > headers/all_sets.h
+	cat headers/all_sets.h

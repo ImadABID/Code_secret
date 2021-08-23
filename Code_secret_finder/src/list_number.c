@@ -6,18 +6,13 @@
 #include "../headers/number.h"
 #include "../headers/list_teammate.h"
 
-#define MAX_ATTEMPTS 100
+#define MAX_ATTEMPTS 5040
 
 struct list_number{
     struct number *first_number;
     int *proposition_hisory;
     int proposition_hisory_index;
 };
-
-//Private functions
-void list_number_organise(struct list_number *lnbr, struct number *nbr);
-char list_number_already_tested(struct list_number *lnbr, int *test_set);
-char list_number_already_tested_no_order(struct list_number *lnbr, int *test_set);
 
 // init
 struct list_number *list_number_new(){
@@ -216,6 +211,8 @@ char list_number_already_tested(struct list_number *lnbr, int *test_set){
 
 char list_number_already_tested_no_order(struct list_number *lnbr, int *test_set){
 
+    //printf("%d%d%d%d\n", test_set[0], test_set[1], test_set[2], test_set[3]);
+
     char nbr1_exist = 0;
     char nbr2_exist = 0;
     char nbr3_exist = 0;
@@ -251,6 +248,11 @@ char list_number_already_tested_no_order(struct list_number *lnbr, int *test_set
         }
 
         if(nbr1_exist == 1 && nbr2_exist == 1 && nbr3_exist == 1 && nbr4_exist == 1){
+            //printf("%d%d%d%d ~ %d%d%d%d\n",
+            //    test_set[0], test_set[1], test_set[2], test_set[3],
+            //    lnbr->proposition_hisory[i], lnbr->proposition_hisory[i+1],
+            //    lnbr->proposition_hisory[i+2], lnbr->proposition_hisory[i+3]
+            //);
             return 1;
         }else{
             nbr1_exist = 0;
