@@ -35,6 +35,13 @@ number : number.o list_number.o list_teammate.o tests/number.c
 number.o: src/number.c headers/number.h
 	gcc -o bin_tmp/number.o -c src/number.c
 
+teammate_graph : teammate_graph.o headers/teammate_graph.h tests/teammate_graph.c
+	gcc -o bin_tmp/teammate_graph tests/teammate_graph.c bin_tmp/teammate_graph.o
+	bin_tmp/teammate_graph
+
+teammate_graph.o : src/teammate_graph.c headers/teammate_graph.h
+	gcc -o bin_tmp/teammate_graph.o -c src/teammate_graph.c
+
 all_sets : list_number.o
 	gcc -o bin_tmp/generate_all_sets tests/all_sets.c bin_tmp/list_number.o bin_tmp/number.o bin_tmp/list_teammate.o
 
