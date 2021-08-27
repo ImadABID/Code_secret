@@ -42,6 +42,13 @@ teammate_graph : teammate_graph.o headers/teammate_graph.h tests/teammate_graph.
 teammate_graph.o : src/teammate_graph.c headers/teammate_graph.h
 	gcc -o bin_tmp/teammate_graph.o -c src/teammate_graph.c
 
+teammate_path_list : teammate_path_list.o tests/teammate_path_list.c headers/teammate_path_list.h
+	gcc -o bin_tmp/teammate_path_list tests/teammate_path_list.c bin_tmp/teammate_path_list.o
+	bin_tmp/teammate_path_list
+
+teammate_path_list.o : src/teammate_path_list.c headers/teammate_path_list.h
+	gcc -o bin_tmp/teammate_path_list.o -c src/teammate_path_list.c
+
 all_sets : list_number.o
 	gcc -o bin_tmp/generate_all_sets tests/all_sets.c bin_tmp/list_number.o bin_tmp/number.o bin_tmp/list_teammate.o
 
