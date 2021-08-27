@@ -17,7 +17,7 @@ struct teammate_path_list{
     int confirmed_order;
 };
 
-struct teammate_path *teammate_path_init(int nbr, struct teammate_path *next){
+struct teammate_path *teammate_path_init(int nbr, int dist, struct teammate_path *next){
 
     struct teammate_path *tpath = malloc(sizeof(struct teammate_path));
 
@@ -26,7 +26,7 @@ struct teammate_path *teammate_path_init(int nbr, struct teammate_path *next){
 
     tpath->path_size = 0;
     tpath->path = malloc(10*sizeof(int));
-    tpath->distance = -1;
+    tpath->distance = dist;
 
     return tpath;
 }
@@ -46,12 +46,14 @@ struct teammate_path_list *teammate_path_list_init(int origin){
 
     for(int i = 0; i < 10 ; i++){
         if(i != origin){
-            c = teammate_path_init(i, p);
+            c = teammate_path_init(i, -1, p);
             p = c;
         }
     }
 
-    c = teammate_path_init(origin, p);
+    c = teammate_path_init(origin, 0, p);
+    int path[] = {origin};
+    teammate_path_copy_path(c, path, 1);
 
     tpathl->first_path = c;
     tpathl->confirmed_order = 1;
@@ -66,7 +68,15 @@ void teammate_path_list_free(struct teammate_path_list *tpathl){
 
 // teammate_path
 
-char teammate_path_visited(struct teammate_path_list *tpathl, int nbr){
+void teammate_path_copy_path(struct teammate_path *tpath, int *path, int path_size){
+    for(int i = 0; i < path_size; i++){
+        tpath->path[i] = path[i];
+    }
+
+    tpath->path_size = path_size;
+}
+
+char teammate_path_is_visited_number(struct teammate_path_list *tpathl, int nbr){
     
     struct teammate_path *tpath = tpathl->first_path;
     
