@@ -20,6 +20,8 @@ void teammate_path_organise(struct teammate_path_list *tpathl, struct teammate_p
 char teammate_path_is_visited_number(struct teammate_path_list *tpathl, int nbr);
 
 // teammate_path_list
+int teammate_path_list_get_confirmed_order(struct teammate_path_list *tpathl);
+void teammate_path_list_get_rare_squad(struct teammate_path_list *tpathl);
 
 void teammate_path_next_visit(int **tr, struct teammate_path_list *tpathl);
 

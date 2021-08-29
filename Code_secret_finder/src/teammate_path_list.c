@@ -93,29 +93,27 @@ char teammate_path_is_visited_number(struct teammate_path_list *tpathl, int nbr)
 
 void teammate_path_extract(struct teammate_path_list *tpathl, struct teammate_path *ptpath, struct teammate_path *tpath){
     if(ptpath == NULL){
-        //printf("\tteammate_path_extract : prev = NULL\n");
+        printf("\t\tExtracting %d prev = NULL\n", tpath->number);
         tpathl->first_path = tpath->next;
     }else{
-        //printf("\tteammate_path_extract : prev = %d\n", ptpath->number);
+        printf("\t\tExtracting %d prev = %d\n", tpath->number, ptpath->number);
         ptpath->next = tpath->next;
     }
 }
 
 void teammate_path_insert_as_next(struct teammate_path_list *tpathl, struct teammate_path *ptpath, struct teammate_path *tpath){
     if(ptpath == NULL){
-        //printf("\tteammate_path_insert_as_next : prev = NULL\n");
+        printf("\t\tInserting %d prev = NULL\n", tpath->number);
         tpath->next = tpathl->first_path;
         tpathl->first_path = tpath;
     }else{
-        //printf("\tteammate_path_insert_as_next : prev = %d\n", ptpath->number);
+        printf("\t\tInserting %d prev = %d\n", tpath->number, ptpath->number);
         tpath->next = ptpath->next;
         ptpath->next = tpath;
     }
 }
 
 void teammate_path_organise(struct teammate_path_list *tpathl, struct teammate_path *to_organise){
-    
-    //printf("--- Organising %d ---\n", to_organise->number);
 
     struct teammate_path *path = tpathl->first_path;
     struct teammate_path *prev_path = NULL;
@@ -147,16 +145,17 @@ void teammate_path_organise(struct teammate_path_list *tpathl, struct teammate_p
         path = path->next;
     }
 
-    //printf("\nExtracting %d\n", to_organise->number);
-    teammate_path_extract(tpathl, prev_extract, to_organise);
-    //teammate_path_list_print(tpathl);
-
-    //printf("\nInserting %d\n", to_organise->number);
-    teammate_path_insert_as_next(tpathl, prev_insert, to_organise);
-    //teammate_path_list_print(tpathl);
+    if(inserted){
+        teammate_path_extract(tpathl, prev_extract, to_organise);
+        teammate_path_insert_as_next(tpathl, prev_insert, to_organise);
+    }
 }
 
 // teammate_path_list
+
+int teammate_path_list_get_confirmed_order(struct teammate_path_list *tpathl){
+    return tpathl->confirmed_order;
+}
 
 void teammate_path_list_get_rare_squad(struct teammate_path_list *tpathl){
     // To implemente
@@ -173,16 +172,25 @@ void teammate_path_next_visit(int **tr, struct teammate_path_list *tpathl){
     while(to_visit != NULL){
 
         if(origin_path != NULL){
-            new_dist =
-                origin_path->distance +
-                teammate_graph_get_teammate_nbr(tr, origin_path->number, to_visit->number)
-            ;
+            if(origin_path->number != to_visit->number){
+                new_dist =
+                    origin_path->distance +
+                    teammate_graph_get_teammate_nbr(tr, origin_path->number, to_visit->number)
+                ;
 
-            if(to_visit->distance == -1 || to_visit->distance > new_dist){
-                to_visit->distance = new_dist;
-                //update path
-                teammate_path_organise(tpathl, to_visit);
-                //break;
+                if(to_visit->distance == -1 || to_visit->distance > new_dist){
+                    printf("\t to_visit.number = %d to_visit.dist = %d new_dist = %d\n", to_visit->number, to_visit->distance, new_dist);
+                    to_visit->distance = new_dist;
+
+                    //update path
+                    for(int j=0; j<origin_path->path_size; j++){
+                        to_visit->path[j] = origin_path->path[j];
+                    }
+                    to_visit->path[origin_path->path_size] = to_visit->number;
+                    to_visit->path_size = origin_path->path_size+1;
+
+                    teammate_path_organise(tpathl, to_visit);
+                }
             }
         }
 
